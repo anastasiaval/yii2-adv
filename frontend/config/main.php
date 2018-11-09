@@ -10,12 +10,7 @@ return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'modules' => [
-        'debug' => [
-            'class' => 'yii\debug\Module',
-            'allowedIPs' => ['*']
-        ]
-    ],
+    'modules' => [],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [

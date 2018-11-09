@@ -11,12 +11,7 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [
-        'debug' => [
-            'class' => 'yii\debug\Module',
-            'allowedIPs' => ['*']
-        ]
-    ],
+    'modules' => [],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
