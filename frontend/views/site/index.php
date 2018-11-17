@@ -4,6 +4,7 @@
 
 $this->title = 'My Yii Application';
 ?>
+<?= common\modules\chat\widgets\Chat::widget(['port' => 8081]); ?>
 <div class="site-index">
 
     <div class="jumbotron">
