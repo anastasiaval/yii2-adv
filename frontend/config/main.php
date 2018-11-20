@@ -14,6 +14,9 @@ return [
         'chat' => [
             'class' => 'common\modules\chat\module',
         ],
+        'api' => [
+            'class' => 'frontend\modules\api\Module',
+        ],
     ],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
@@ -45,6 +48,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                ['class' => 'yii\rest\UrlRule', 'controller' => ['api/user', 'api/task', 'api/project']]
             ],
         ],
     ],
