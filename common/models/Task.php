@@ -22,9 +22,12 @@ use Yii;
  * @property User $executor
  * @property User $createdBy
  * @property User $updatedBy
+ * @property Project[] $getProject
  */
 class Task extends \yii\db\ActiveRecord
 {
+    const RELATION_GET_PROJECT = 'getProject';
+
     /**
      * {@inheritdoc}
      */
@@ -91,6 +94,14 @@ class Task extends \yii\db\ActiveRecord
     public function getUpdatedBy()
     {
         return $this->hasOne(User::className(), ['id' => 'updated_by']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProject()
+    {
+        return $this->hasOne(Project::className(), ['id' => 'project_id']);
     }
 
     /**
