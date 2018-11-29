@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use frontend\models\search\ProjectSearch;
 use Yii;
 use common\models\Project;
 use yii\data\ActiveDataProvider;
@@ -35,11 +36,13 @@ class ProjectController extends Controller
      */
     public function actionIndex()
     {
+        $searchModel = new ProjectSearch();
         $dataProvider = new ActiveDataProvider([
             'query' => Project::find(),
         ]);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

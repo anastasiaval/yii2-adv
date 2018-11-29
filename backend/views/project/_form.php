@@ -2,6 +2,10 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\models\Project;
+use common\models\ProjectUser;
+use common\models\User;
+use unclead\multipleinput\MultipleInput;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Project */
@@ -16,13 +20,38 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'created_by')->textInput() ?>
+    <?= $form->field($model, 'active')->dropDownList(Project::STATUS_LABELS)?>
 
-    <?= $form->field($model, 'updated_by')->textInput() ?>
+    <?php if(!$model->isNewRecord) ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
+    <?= $form->field($model, Project::RELATION_PROJECT_USERS)
+        ->widget(MultipleInput::className(), [
+            'id' => 'project-users-widget',
+            'max' => 10,
+            'min' => 0,
+            'addButtonPosition' => MultipleInput::POS_HEADER,
+            'columns' => [
+                [
+                    'name' => 'project_id',
+                    'type' => 'hiddenInput',
+                    'defaultValue' => $model->id,
+                ],
+                [
+                    'name' => 'user_id',
+                    'type' => 'dropDownList',
+                    'title' => 'User',
+                    'items' => User::find()->select('username')->indexBy('id')->column()
+                ],
+                [
+                    'name' => 'role',
+                    'type' => 'dropDownList',
+                    'title' => 'Role',
+                    'items' => ProjectUser::ROLE_LABELS
+                ],
+            ],
+        ]) ?>
 
-    <?= $form->field($model, 'updated_at')->textInput() ?>
+    <?php ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

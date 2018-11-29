@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use frontend\models\search\TaskSearch;
 use Yii;
 use common\models\Task;
 use yii\data\ActiveDataProvider;
@@ -35,11 +36,13 @@ class TaskController extends Controller
      */
     public function actionIndex()
     {
+        $searchModel = new TaskSearch();
         $dataProvider = new ActiveDataProvider([
             'query' => Task::find(),
         ]);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

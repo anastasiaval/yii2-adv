@@ -2,7 +2,10 @@
 
 namespace common\models;
 
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "project".
@@ -14,6 +17,7 @@ use Yii;
  * @property int $updated_by
  * @property int $created_at
  * @property int $updated_at
+ * @property bool $active
  *
  * @property User $createdBy
  * @property User $updatedBy
@@ -21,6 +25,13 @@ use Yii;
  */
 class Project extends \yii\db\ActiveRecord
 {
+    const RELATION_PROJECT_USERS = 'projectUsers';
+    const STATUS_NOT_ACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+    const STATUS_LABELS = [
+        self::STATUS_ACTIVE => 'Активный', self::STATUS_NOT_ACTIVE => 'Неактивный'
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -37,10 +48,27 @@ class Project extends \yii\db\ActiveRecord
         return [
             [['title', 'description', 'created_by', 'created_at'], 'required'],
             [['description'], 'string'],
+            [['active'], 'boolean'],
             [['created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
             [['title'], 'string', 'max' => 255],
-            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
-            [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
+            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(),
+                'targetAttribute' => ['created_by' => 'id']],
+            [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(),
+                'targetAttribute' => ['updated_by' => 'id']],
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::class,
+            BlameableBehavior::class,
+            'saveRelations' => [
+                'class' => SaveRelationsBehavior::class,
+                'relations' => [
+                    self::RELATION_PROJECT_USERS,
+                ],
+            ],
         ];
     }
 

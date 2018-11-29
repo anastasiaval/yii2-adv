@@ -3,8 +3,10 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use common\models\Project;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $searchModel backend\models\search\ProjectSearch */
 
 $this->title = 'Projects';
 $this->params['breadcrumbs'][] = $this->title;
@@ -20,14 +22,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'title',
             'description:ntext',
             'created_by',
             'updated_by',
+            [
+                'attribute' => 'active',
+                'filter' => Project::STATUS_LABELS,
+                'value' => function(\common\models\Project $model) {
+                    return Project::STATUS_LABELS[$model->active];
+                }
+            ],
             //'created_at',
             //'updated_at',
 

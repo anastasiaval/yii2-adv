@@ -18,6 +18,7 @@ use Yii;
  * @property int $updated_by
  * @property int $created_at
  * @property int $updated_at
+ * @property int $project_id
  *
  * @property User $executor
  * @property User $createdBy
