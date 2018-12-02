@@ -1,4 +1,5 @@
 <?php
 return [
-    'hosts.front' => 'http://yii2-adv'
+    'hosts.front' => 'http://yii2-adv',
+    'admins' => [1]
 ];

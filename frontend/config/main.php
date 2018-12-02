@@ -58,7 +58,10 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => ['api/user', 'api/task', 'api/project']]
+                ['class' => 'yii\rest\UrlRule', 'controller' => ['api/user', 'api/task', 'api/project']],
+                '<controller:[\w-]+>s' => '<controller>/index',
+                '<controller:[\w-]+>/<id:\d+>' => '<controller>/view',
+                '<controller:[\w-]+>/<action:[\w-]+><id:\d+>' => '<controller>/<action>'
             ],
         ],
     ],
