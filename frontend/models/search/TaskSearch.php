@@ -2,6 +2,7 @@
 
 namespace frontend\models\search;
 
+use common\models\User;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -12,6 +13,10 @@ use common\models\Task;
  */
 class TaskSearch extends Task
 {
+    public $createdBy;
+    public $updatedBy;
+    public $projectTitle;
+
     /**
      * {@inheritdoc}
      */
@@ -19,7 +24,7 @@ class TaskSearch extends Task
     {
         return [
             [['id', 'estimation', 'project_id', 'executor_id', 'started_at', 'completed_at', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
-            [['title', 'description'], 'safe'],
+            [['title', 'description', 'createdBy', 'updatedBy', 'projectTitle'], 'safe'],
         ];
     }
 

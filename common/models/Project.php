@@ -105,7 +105,7 @@ class Project extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery[ProjectUserQuery]
      */
     public function getProjectUsers()
     {

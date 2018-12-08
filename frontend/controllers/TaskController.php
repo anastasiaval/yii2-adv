@@ -2,10 +2,10 @@
 
 namespace frontend\controllers;
 
+use common\models\query\TaskQuery;
 use frontend\models\search\TaskSearch;
 use Yii;
 use common\models\Task;
-use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -27,13 +27,13 @@ class TaskController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-                'access' => [
-                    'class' => AccessControl::className(),
-                    'rules' => [
-                        [
-                            'allow' => true,
-                            'roles' => ['@'],
-                        ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
                     ],
                 ],
             ],
@@ -47,9 +47,11 @@ class TaskController extends Controller
     public function actionIndex()
     {
         $searchModel = new TaskSearch();
-        $dataProvider = new ActiveDataProvider([
-            'query' => Task::find(),
-        ]);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        /** @var $query TaskQuery*/
+        $query = $dataProvider->query;
+        $query->byUser(Yii::$app->user->id);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -109,11 +111,33 @@ class TaskController extends Controller
     }
 
     /**
-     * Deletes an existing Task model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * @param $id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     */
+    public function actionTake($id) {
+        $model = $this->findModel($id);
+        Yii::$app->taskService->takeTask($model, Yii::$app->user->identity);
+        return $this->redirect(['index']);
+    }
+
+    /**
+     * @param $id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     */
+    public function actionComplete($id) {
+        $model = $this->findModel($id);
+        Yii::$app->taskService->completeTask($model);
+        return $this->redirect(['index']);
+    }
+
+    /**
+     * @param $id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id)
     {

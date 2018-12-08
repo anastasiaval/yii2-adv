@@ -25,5 +25,22 @@ return [
         'emailService' => [
             'class' => \common\services\EmailService::class
         ],
+        'taskService' => [
+            'class' => \common\services\TaskService::class
+        ],
+        'i18n' => [
+            'translations' => [
+                'yii2mod.comments' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@yii2mod/comments/messages',
+                ],
+                // ...
+            ],
+        ],
     ],
+    'modules' => [
+        'comment' => [
+            'class' => 'yii2mod\comments\Module',
+        ],
+    ]
 ];

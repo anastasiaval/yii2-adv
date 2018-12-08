@@ -23,11 +23,11 @@ use Yii;
  * @property User $executor
  * @property User $createdBy
  * @property User $updatedBy
- * @property Project[] $getProject
+ * @property $project Project
  */
 class Task extends \yii\db\ActiveRecord
 {
-    const RELATION_GET_PROJECT = 'getProject';
+    const RELATION_PROJECT = 'project';
 
     /**
      * {@inheritdoc}
