@@ -44,25 +44,21 @@ class TaskService extends Component
     /**
      * @param Task $task
      * @param User $user
+     * @return bool
      */
     public function takeTask(Task $task, User $user) {
         $task->executor_id = $user->id;
         $task->started_at = time();
-
-        if ($task->save()) {
-            \Yii::$app->session->setFlash('success', 'Успешно взяли');
-        }
+        return $task->save();
     }
 
     /**
      * @param Task $task
+     * @return bool
      */
     public function completeTask(Task $task) {
         $task->completed_at = time();
-
-        if ($task->save()) {
-            \Yii::$app->session->setFlash('success', 'Успешно завершили');
-        }
+        return $task->save();
     }
 
 }
